@@ -20,5 +20,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 
 # Install Node.js
-# RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
-# RUN apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
+RUN apt-get install -y nodejs
+

@@ -10,9 +10,9 @@ class HomeController extends Controller
     public function index(): View
     {
         return view(
-        'index',
+            'public',
             [
-            'title' => 'Sākumlapa',
+            'title' => '2. Praktiskais darbs',
             ]
         );
     }
