@@ -79,19 +79,21 @@ class BookController extends Controller implements HasMiddleware
         $book->description = $validatedData['description'];
         $book->price = $validatedData['price'];
         $book->year = $validatedData['year'];
-        $validatedData = $request->validated();
         $book->fill($validatedData);
         $book->display = (bool) ($validatedData['display'] ?? false);
         if ($request->hasFile('image')) {
-            // šeit varat pievienot kodu, kas nodzēš veco bildi, ja pievieno jaunu
             $uploadedFile = $request->file('image');
             $extension = $uploadedFile->clientExtension();
             $name = uniqid();
-            $book->image = $uploadedFile->storePubliclyAs(
-                '/',
-                $name . '.' . $extension,
-            'uploads'
+
+            // SAVE directly to public/images
+            $uploadedFile->move(
+                public_path('images'),
+                $name . '.' . $extension
             );
+
+            // STORE the public path in DB
+            $book->image = 'images/' . $name . '.' . $extension;
         }
         $book->save();
     }
