@@ -71,7 +71,7 @@
             <label for="book-image" class="form-label">Attēls</label>
             @if ($book->image)
                 <img
-                    src="{{ asset('images/' . $book->image) }}"
+                    src="{{ asset($book->image) }}"
                     class="img-fluid img-thumbnail d-block mb-2"
                     alt="{{ $book->name }}"
                 >

@@ -55,7 +55,7 @@
             <div class="container">
                 <div class="row py-5">
                     <div class="col">
-                        K. Immers, 2025
+                        Toms Bāders, 2026
                     </div>
                 </div>
             </div>
