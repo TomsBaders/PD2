@@ -11,7 +11,7 @@ class BookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class BookRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:256',
             'author_id' => 'required',
+            'category_id' => 'required',
             'description' => 'nullable',
             'price' => 'nullable|numeric',
             'year' => 'numeric',
@@ -50,6 +51,7 @@ class BookRequest extends FormRequest
         return [
             'name' => 'nosaukums',
             'author_id' => 'autors',
+            'category_id' => 'category',
             'description' => 'apraksts',
             'price' => 'cena',
             'year' => 'gads',

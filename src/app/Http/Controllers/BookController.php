@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
+use App\Models\Category;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 
@@ -38,12 +39,14 @@ class BookController extends Controller implements HasMiddleware
     public function create(): View
     {
         $authors = Author::orderBy('name', 'asc')->get();
+        $categories = Category::orderBy('name', 'asc')->get();
         return view(
             'book.form',
             [
-                    'title' => 'Pievienot grāmatu',
-                    'book' => new Book(),
-                    'authors' => $authors,
+                'title' => 'Pievienot grāmatu',
+                'book' => new Book(),
+                'authors' => $authors,
+                'categories' => $categories,
             ]
         );
     }
@@ -52,12 +55,14 @@ class BookController extends Controller implements HasMiddleware
     public function update(Book $book): View
     {
         $authors = Author::orderBy('name', 'asc')->get();
+        $categories = Category::orderBy('name', 'asc')->get();
         return view(
             'book.form',
             [
-            'title' => 'Rediģēt grāmatu',
-            'book' => $book,
-            'authors' => $authors,
+                'title' => 'Rediģēt grāmatu',
+                'book' => $book,
+                'authors' => $authors,
+                'categories' => $categories,
             ]
         );
     }
@@ -68,6 +73,7 @@ class BookController extends Controller implements HasMiddleware
         $validatedData = $request->validate([
             'name' => 'required|min:3|max:256',
             'author_id' => 'required',
+            'category_id' => 'required',
             'description' => 'nullable',
             'price' => 'nullable|numeric',
             'year' => 'numeric',
@@ -76,6 +82,7 @@ class BookController extends Controller implements HasMiddleware
         ]);
         $book->name = $validatedData['name'];
         $book->author_id = $validatedData['author_id'];
+        $book->category_id = $validatedData['category_id'];
         $book->description = $validatedData['description'];
         $book->price = $validatedData['price'];
         $book->year = $validatedData['year'];
@@ -86,9 +93,9 @@ class BookController extends Controller implements HasMiddleware
             $extension = $uploadedFile->clientExtension();
             $name = uniqid();
             $book->image = $uploadedFile->storePubliclyAs(
-                '/',
+                'images',
                 $name . '.' . $extension,
-                'uploads'
+                'public'
             );
         }
         $book->save();
